@@ -1,0 +1,8 @@
+.nav-link {
+    transition: font-weight 0.3s ease, z-index 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    font-weight: bold;
+    z-index: 1010; /* or any value that suits your layout */
+  }
