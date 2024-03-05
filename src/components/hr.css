@@ -1,0 +1,5 @@
+.white-hr {
+    border: none;
+    height: 4px;
+    background-color: white; /* Set background color to white */
+}

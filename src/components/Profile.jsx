@@ -25,15 +25,17 @@ function Profile() {
 
       <TopicCerosoal />
 
+      <Outlet />
 
-      <div style={{ display: 'flex', flex: 1 }}>
-        <ProfileSidebar />
+
+      {/* <div style={{ display: 'flex', flex: 1 }}>
+        <ProfileSidebar /> */}
         {/* <ArticleContent /> */}
         {/* <CreateNewArticle /> */}
         {/* <MaterialUpload/> */}
         {/* <UserProfile/> */}
-        <Outlet/>
-      </div>
+        {/* <Outlet/>
+      </div> */}
     </div>
 
 

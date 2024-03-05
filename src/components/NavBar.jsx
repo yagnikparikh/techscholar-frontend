@@ -161,7 +161,7 @@ function NavBar() {
               </button>
             </a>
             :
-            <a className="nav-link active" href={`/${uname}/profile`}>
+            <a className="nav-link active" href={`/${uname}/manage-account/my-profile`}>
 
               <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
                 Profile

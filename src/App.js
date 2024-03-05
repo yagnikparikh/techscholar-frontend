@@ -9,13 +9,24 @@ import Profile from './components/Profile';
 import Courses from './components/Courses';
 import Materials from './components/Materials';
 import UserProfile from './components/UserProfile';
-import ArticleGroup from './components/ArticleGroup';
+import ArticleGroup from './components/MyArticleGroup';
 import CreateNewArticleGroup from './components/CreateNewArticleGroup';
-import ArticleList from './components/ArticleList';
+import ArticleList from './components/MyArticleList';
 import { Article } from '@mui/icons-material';
 import ArticleDisplay from './components/ArticleDisplay';
 import CreateNewArticle from './components/CreateNewArticle';
 import MentorDisplay from './components/MentorDisplay';
+import ViewProfile from './components/ViewProfile';
+import MyArticleGroup from './components/MyArticleGroup';
+import MyMaterials from './components/MyMaterials';
+import MyCourses from './components/MyCourses';
+import MyProfile from './components/MyProfile';
+import ManageAccount from './components/ManageAccount';
+import ViewProfileLayout from './components/ViewProfileLayout';
+import ViewArticleGroup from './components/ViewArticleGroup';
+import ViewArticleList from './components/ViewArticleList';
+import ViewArticleDisplay from './components/ViewArticleDisplay';
+import ViewArticle from './components/ArticleView';
 
 function App() {
   return (
@@ -25,16 +36,48 @@ function App() {
           <Route path="/" Component={HomePage} />
 
           <Route path="/:username" Component={Profile}  >
-            <Route index Component={UserProfile} />
-            <Route index path='profile' Component={UserProfile} />
-            <Route path='courses' Component={Courses} />
-            <Route path='create-new-articlegroup' Component={CreateNewArticleGroup} />
-            <Route path='articlegroups' Component={ArticleGroup} /> 
-            <Route path='materials' Component={Materials} />
-            <Route path=":articleGroup/articles" Component={ArticleList} />
-            <Route path=":articleGroup/create-new-article" Component={CreateNewArticle} />
-            <Route path=":articleGroup/:articleHeading" Component={ArticleDisplay} />
-            
+
+
+
+            <Route path="manage-account" Component={ManageAccount}  >
+              <Route index Component={MyProfile} />
+              <Route path='my-profile' Component={MyProfile} />
+              <Route path='my-courses' Component={MyCourses} />
+              <Route path='my-materials' Component={MyMaterials} />
+              <Route path='my-articlegroups' Component={MyArticleGroup} />
+              <Route path='create-new-articlegroup' Component={CreateNewArticleGroup} />
+              <Route path=":articleGroup/articles" Component={ArticleList} />
+              <Route path=":articleGroup/create-new-article" Component={CreateNewArticle} />
+              <Route path=":articleGroup/:articleHeading" Component={ArticleDisplay} />
+            </Route>
+
+
+
+
+
+
+
+
+
+
+
+          </Route>
+          <Route path="/:mentorusername" Component={Profile}  >
+            <Route path="" Component={ViewProfileLayout}  >
+              <Route index Component={UserProfile} />
+              <Route path='profile' Component={UserProfile} />
+              <Route path='courses' Component={Courses} />
+              <Route path='materials' Component={Materials} />
+              <Route path='articlegroups' Component={ViewArticleGroup} />
+
+            </Route>
+          </Route>
+
+          <Route path="/:mentorusername" Component={Profile}  >
+
+            {/* <Route path=":articleGroup/articles" Component={ViewArticleList} /> */}
+            <Route path=":articleGroup/:articleHeading" Component={ViewArticle} />
+
           </Route>
           <Route path="/signup" Component={SignUp} />
           <Route path="/login" Component={Login} />

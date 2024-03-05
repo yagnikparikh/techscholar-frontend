@@ -3,6 +3,7 @@ import MentorCard from './MentorCard'
 import TopicCerosoal from './TopicCerosoal'
 import NavBar from './NavBar'
 import Sidebar from './SideBar'
+import Mentors from './Mentors'
 
 function MentorDisplay() {
   return (
@@ -15,7 +16,7 @@ function MentorDisplay() {
 
       <div style={{ display: 'flex', flex: 1 }}>
         <Sidebar />
-        <MentorCard />
+        <Mentors />
        
       </div>
     </div>

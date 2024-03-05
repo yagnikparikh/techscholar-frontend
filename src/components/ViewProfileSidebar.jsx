@@ -1,7 +1,7 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
 const navLinkStyle = {
     base: {
         textDecoration: 'none',
@@ -13,7 +13,8 @@ const navLinkStyle = {
     },
 };
 
-function ProfileSidebar() {
+function ViewProfileSidebar() {
+  
     let sidebarItems;
 
     const { username, userrole, jwtToken, setLoginData } = useContext(AuthContext);
@@ -34,7 +35,7 @@ function ProfileSidebar() {
         if (userrole == "user")
             sidebarItems = ["Liked Articles", "My Courses", "", "4"];
         else
-            sidebarItems = ['My Courses', 'My ArticleGroups', 'My Materials'];
+            sidebarItems = ['Courses', 'ArticleGroups', 'Materials'];
     }
 
     const handelLogout = () => {
@@ -57,7 +58,7 @@ function ProfileSidebar() {
                 <ul class="nav nav-pills flex-column mb-auto">
                     {sidebarItems.map((item, index) => (
                         <li className='nav-item' key={index}>
-                            <a href={`/${username}/manage-account/my-${item.substring(3).toLowerCase()}`} class="nav-link text-left" aria-current="page" style={navLinkStyle.base}
+                            <a href={`/${username}/${item}`} class="nav-link text-left" aria-current="page" style={navLinkStyle.base}
                                 onMouseOver={(e) => {
                                     e.target.style.fontWeight = navLinkStyle.hover.fontWeight;
                                     e.target.style.zIndex = navLinkStyle.hover.zIndex;
@@ -101,6 +102,13 @@ function ProfileSidebar() {
 
         </div>
     );
+  
 }
 
-export default ProfileSidebar;
+export default ViewProfileSidebar
+
+
+
+
+
+

@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 import ArticleGroupCard from './ArticleGroupCard';
 
 
-function ArticleGroup() {
+function MyArticleGroup() {
 
     const { jwtToken, username } = useContext(AuthContext);
     const [articleGroupList, setArticleGroupList] = useState([]);
@@ -76,4 +76,4 @@ function ArticleGroup() {
     )
 }
 
-export default ArticleGroup
+export default MyArticleGroup
