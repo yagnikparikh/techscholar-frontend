@@ -5,18 +5,54 @@ import ArticleParagraph from './ArticleParagraph';
 import ImpNote from './ImpNote';
 import CodeComponent from './CodeComonenet';
 import AuthContext from '../context/AuthContext';
+import { useOutletContext } from 'react-router-dom';
+import ViewArticleHeading from './ViewArticleHeading';
 
 function ViewArticleDisplay() {
-    
+
     const { jwtToken, username } = useContext(AuthContext);
-    const { articleGroup, articleHeading,mentorusername } = useParams();
+    const { articleGroup, articleHeading, mentorusername } = useParams();
     const [article, setArticle] = useState({});
+    const [renderNextButton, setRenderNextButton] = useState(true);
+    const [renderPrevButton, setRenderPrevButton] = useState(true);
+    const [nextArticleHeading, setNextArticleHeading] = useState('');
+    const [prevArticleHeading, setPrevArticleHeading] = useState('');
+    const { lastArticleHeading, firstArticleHeading, articleList } = useOutletContext();
     const [articleDataList, setArticleDataList] = useState([]);
+
 
     useEffect(() => {
         console.log('hello from useEffect');
+
+
         fetchAritcle();
-    }, []);
+        handleArticleChange();
+
+
+
+
+    }, [articleHeading, lastArticleHeading, firstArticleHeading, articleList]);
+
+    const handleArticleChange = () => {
+
+        console.log("handleArticleChange" + articleList + articleHeading + " " + lastArticleHeading);
+
+        const currIndex = articleList.indexOf(articleHeading);
+
+
+        if (articleHeading === firstArticleHeading) {
+            console.log('articleHeading===firstArticleHeading')
+            setRenderPrevButton(false);
+        }
+        if (articleHeading === lastArticleHeading) {
+            console.log('articleHeading===lastArticleHeading')
+            setRenderNextButton(false);
+        }
+        if (renderNextButton)
+            setNextArticleHeading(articleList[currIndex + 1]);
+        if (renderPrevButton)
+            setPrevArticleHeading(articleList[currIndex - 1]);
+    }
 
     const fetchAritcle = () => {
         const storedToken = jwtToken;
@@ -50,24 +86,15 @@ function ViewArticleDisplay() {
         <div className='bg-gray-800 text-white text-justify sp' style={{ whiteSpace: 'pre-wrap', flex: '1', height: '100vh', padding: '20px', overflowY: 'scroll', overflowX: 'hidden' }}>
 
             <div>
-                <ArticleHeading className='mt-9' content={article.articleHeading} />
-
-                <div className='grid-flow-row flex justify-end '>
-
-
-                    <hr className='bg-white my-2' />
-
-                </div>
-
-
-
+                <ViewArticleHeading className='mt-9' content={article.articleHeading} mentorusername={mentorusername} articleGroup={articleGroup} renderNextButton={renderNextButton} renderPrevButton={renderPrevButton} nextArticleHeading={nextArticleHeading} prevArticleHeading={prevArticleHeading} />
+               
 
                 {
                     articleDataList.map((articleData) => (
                         <div key={articleData.articleDataId}>
                             {articleData.contentType === 'Paragraph' && <ArticleParagraph content={articleData.contentData} />}
                             {articleData.contentType === 'Important Note' && <ImpNote content={articleData.contentData} />}
-                            {articleData.contentType === 'Code Component' && <CodeComponent content={articleData.contentData} />}
+                            {articleData.contentType === 'Code Snippet' && <CodeComponent content={articleData.contentData} />}
 
                         </div>
                     ))

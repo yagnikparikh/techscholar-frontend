@@ -26,7 +26,7 @@ import ViewProfileLayout from './components/ViewProfileLayout';
 import ViewArticleGroup from './components/ViewArticleGroup';
 import ViewArticleList from './components/ViewArticleList';
 import ViewArticleDisplay from './components/ViewArticleDisplay';
-import ViewArticle from './components/ArticleView';
+import ViewArticle from './components/ViewArticle';
 
 function App() {
   return (
@@ -34,6 +34,15 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" Component={HomePage} />
+
+          {/* <Route path='/admin' Component={}>
+
+          <Route path='my-profile' Component={MyProfile} />
+              <Route path='my-courses' Component={MyCourses} />
+              <Route path='my-materials' Component={MyMaterials} />
+              <Route path='my-articlegroups' Component={MyArticleGroup} />
+
+          </Route> */}
 
           <Route path="/:username" Component={Profile}  >
 
@@ -53,14 +62,6 @@ function App() {
 
 
 
-
-
-
-
-
-
-
-
           </Route>
           <Route path="/:mentorusername" Component={Profile}  >
             <Route path="" Component={ViewProfileLayout}  >
@@ -73,10 +74,10 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="/:mentorusername" Component={Profile}  >
+          <Route path="/:mentorusername/:articleGroup" Component={ViewArticle}  >
 
             {/* <Route path=":articleGroup/articles" Component={ViewArticleList} /> */}
-            <Route path=":articleGroup/:articleHeading" Component={ViewArticle} />
+            <Route path=":articleHeading" Component={ViewArticleDisplay} />
 
           </Route>
           <Route path="/signup" Component={SignUp} />

@@ -29,7 +29,7 @@ function MyArticleGroup() {
             .then(data => {
                 // Update the state with the fetched data
                 console.log('Update the state with the fetched data');
-                setArticleGroupList(data);
+                setArticleGroupList(data.articleGroupList);
             })
             .catch(error => console.error('Error:', error));
     }

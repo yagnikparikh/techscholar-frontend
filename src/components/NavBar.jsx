@@ -18,15 +18,19 @@ function NavBar() {
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
 
-  const { username, jwtToken } = useContext(AuthContext);
+  const { username, jwtToken, userrole } = useContext(AuthContext);
 
   const [uname, setUname] = useState(username);
+  const isLoggedIn = username !== null;
+
 
   useEffect(() => {
     console.log("helloiwww" + username);
     setUname(username);
-    
-    console.log("    "+uname);
+    console.log("userrole " + userrole);
+    console.log("isLoggedIn " + userrole);
+
+    console.log("    " + uname);
   }, [username]);
 
 
@@ -153,23 +157,29 @@ function NavBar() {
           </button>
         </form>
         <div className='nav-item'>
-          {uname===null ?
-            <a className="nav-link active" href='/login'>
+          {
+            userrole === "[ADMIN]" ? <a className="nav-link active" href='/admin/my-profile'>
 
               <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
-                login 
+                Admin Panel
               </button>
             </a>
-            :
-            <a className="nav-link active" href={`/${uname}/manage-account/my-profile`}>
+          :
+            uname !== null ?
 
-              <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
-                Profile
-              </button>
-            </a>
+              <a className="nav-link active" href={`/${username}/manage-account/my-profile`}>
 
+                <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
+                  Profile
+                </button>
+              </a>
+              :
+              <a className="nav-link active" href='/login'>
 
-
+                <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
+                  login
+                </button>
+              </a>
           }
         </div>
 

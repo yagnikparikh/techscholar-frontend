@@ -260,7 +260,7 @@ function ArticleDisplay() {
                         <div key={articleData.articleDataId}>
                             {articleData.contentType === 'Paragraph' && <ArticleParagraph content={articleData.contentData} />}
                             {articleData.contentType === 'Important Note' && <ImpNote content={articleData.contentData} />}
-                            {articleData.contentType === 'Code Component' && <CodeComponent content={articleData.contentData} />}
+                            {articleData.contentType === 'Code Snippet' && <CodeComponent content={articleData.contentData} />}
 
                         </div>
                     ))

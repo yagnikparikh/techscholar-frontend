@@ -20,13 +20,14 @@ function TopicCerosoal() {
     };
 
     const [topicsData, setTopicsData] = useState([]);
-    const {jwtToken} = useContext(AuthContext);
+    const {jwtToken,username} = useContext(AuthContext);
 
     // Use the useEffect hook to fetch data when the component mounts
     useEffect(() => {
         // Fetch data from the /topics endpoint
         const storedToken = jwtToken;
         console.log("jwtToken "+ storedToken)
+        console.log("username "+ username)
         fetch('http://localhost:8080/topics', {
             method: "GET",
             headers: {

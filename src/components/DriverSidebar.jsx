@@ -19,43 +19,14 @@ const navLinkStyle = {
 };
 
 
-function DriverSidebar() {
+function DriverSidebar({articleList}) {
 
     const { jwtToken, username } = useContext(AuthContext);
     const { articleGroup, articleHeading, mentorusername } = useParams();
-    const [articleList, setArticleList] = useState([]);
+    
     const location = useLocation();
 
-    useEffect(() => {
-        console.log('hello from useEffect');
-        fetchAritcle();
-    }, []);
-
-    const fetchAritcle = () => {
-        const storedToken = jwtToken;
-        console.log("jwtToken " + storedToken)
-        console.log("username " + username)
-        console.log("articleGroup " + articleGroup)
-        console.log("articleHeading " + articleHeading)
-        console.log("location.pathname " + location.pathname)
-
-        fetch(`http://localhost:8080/${mentorusername}/${articleGroup}/all-article-headings`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${storedToken}`,
-                "Content-Type": "application/json",
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Update the state with the fetched data
-                console.log('Update the state with the fetched data' + data);
-                console.log(data);
-                setArticleList(data.list);
-
-            })
-            .catch(error => console.error('Error:', error));
-    }
+    
 
     return (
         <div className='bg-gray-900' style={{ flex: '0 0 20%', overflowY: 'scroll', height: '100vh' }}>
