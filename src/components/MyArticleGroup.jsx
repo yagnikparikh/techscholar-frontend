@@ -17,7 +17,8 @@ function MyArticleGroup() {
 
     const fetchAritcleGroupList = () => {
         const storedToken = jwtToken;
-        console.log("jwtToken " + storedToken)
+        console.log("jwtToken " + storedToken);
+        
         fetch(`http://localhost:8080/${username}/articlegroups`, {
             method: "GET",
             headers: {

@@ -14,7 +14,7 @@ const navLinkStyle = {
 };
 
 function ProfileSidebar() {
-    let sidebarItems;
+    let sidebarItems,urlPrefix;
 
     const { username, userrole, jwtToken, setLoginData } = useContext(AuthContext);
 
@@ -37,6 +37,12 @@ function ProfileSidebar() {
             sidebarItems = ['My Courses', 'My ArticleGroups', 'My Materials'];
     }
 
+    if(userrole==="[ADMIN]"){
+        urlPrefix = "admin";
+    }else{
+        urlPrefix = `${username}/manage-account`;
+    }
+
     const handelLogout = () => {
         setLoginData({});
         localStorage.clear();
@@ -57,7 +63,7 @@ function ProfileSidebar() {
                 <ul class="nav nav-pills flex-column mb-auto">
                     {sidebarItems.map((item, index) => (
                         <li className='nav-item' key={index}>
-                            <a href={`/${username}/manage-account/my-${item.substring(3).toLowerCase()}`} class="nav-link text-left" aria-current="page" style={navLinkStyle.base}
+                            <a href={`/${urlPrefix}/my-${item.substring(3).toLowerCase()}`} class="nav-link text-left" aria-current="page" style={navLinkStyle.base}
                                 onMouseOver={(e) => {
                                     e.target.style.fontWeight = navLinkStyle.hover.fontWeight;
                                     e.target.style.zIndex = navLinkStyle.hover.zIndex;

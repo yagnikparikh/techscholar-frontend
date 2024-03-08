@@ -27,6 +27,13 @@ import ViewArticleGroup from './components/ViewArticleGroup';
 import ViewArticleList from './components/ViewArticleList';
 import ViewArticleDisplay from './components/ViewArticleDisplay';
 import ViewArticle from './components/ViewArticle';
+import AdminMyArticleGroup from './components/GuidedPathArticleGroup';
+import MyArticleList from './components/MyArticleList';
+import GuidedPathArticleList from './components/GuidedPathArticleList';
+import GuidedPathArticleDisplay from './components/GuidedPathArticleDisplay';
+import CreateNewGuidedPathArticle from './components/CreateNewGuidedPathArticle';
+import GuidedPathArticleGroup from './components/GuidedPathArticleGroup';
+import MaterialUpload from './components/MaterialUpload';
 
 function App() {
   return (
@@ -35,14 +42,18 @@ function App() {
         <Routes>
           <Route path="/" Component={HomePage} />
 
-          {/* <Route path='/admin' Component={}>
+          <Route path='/admin' Component={ManageAccount}>
 
-          <Route path='my-profile' Component={MyProfile} />
-              <Route path='my-courses' Component={MyCourses} />
-              <Route path='my-materials' Component={MyMaterials} />
-              <Route path='my-articlegroups' Component={MyArticleGroup} />
+            <Route path='my-profile' Component={MyProfile} />
+            <Route path='my-courses' Component={MyCourses} />
+            <Route path='my-materials' Component={MyMaterials} />
+            <Route path='my-articlegroups' Component={GuidedPathArticleGroup} />
+            <Route path=":guidedPathTitle/articles" Component={GuidedPathArticleList} />
+            <Route path=":guidedPathTitle/create-new-guidedpath-article" Component={CreateNewGuidedPathArticle} />
+            <Route path=":guidedPathTitle/:articleHeading" Component={GuidedPathArticleDisplay} />
+            
 
-          </Route> */}
+          </Route>
 
           <Route path="/:username" Component={Profile}  >
 
@@ -52,10 +63,12 @@ function App() {
               <Route index Component={MyProfile} />
               <Route path='my-profile' Component={MyProfile} />
               <Route path='my-courses' Component={MyCourses} />
+              <Route path='my-materials/upload-material' Component={MaterialUpload} />
+
               <Route path='my-materials' Component={MyMaterials} />
               <Route path='my-articlegroups' Component={MyArticleGroup} />
               <Route path='create-new-articlegroup' Component={CreateNewArticleGroup} />
-              <Route path=":articleGroup/articles" Component={ArticleList} />
+              <Route path=":articleGroup/articles" Component={MyArticleList} />
               <Route path=":articleGroup/create-new-article" Component={CreateNewArticle} />
               <Route path=":articleGroup/:articleHeading" Component={ArticleDisplay} />
             </Route>
