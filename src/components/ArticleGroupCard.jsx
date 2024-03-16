@@ -62,7 +62,7 @@ function ArticleGroupCard({content,reloadArticleGroupList}) {
     }
   return (
     <div>
-      <a href={`${content}/articles`} className="card bg-gray-700 mt-1 text-decoration-none text-light">
+      <a  className="card bg-gray-700 mt-1 text-decoration-none text-light">
             <div className="card-body d-flex justify-between align-items-center ">
             <a href={`${content}/articles`}><div className="card-text text-lg">{content}</div></a>
                 <div className="d-flex justify-content-beween">
