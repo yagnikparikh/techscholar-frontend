@@ -32,6 +32,8 @@ function MyCourseVideoList() {
                     return <VideoCard courseData={courseData} courseTitle={courseDetails.courseTitle} />
                 })}
 
+             {/* <VideoCard courseData={{courseDataTitle:'java 11',description:'ajajaj'}} courseTitle={'Java'} /> */}
+
 
             </ul>
         </Card>

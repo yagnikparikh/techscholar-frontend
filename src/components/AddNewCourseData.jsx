@@ -68,7 +68,7 @@ function AddNewCourseData() {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${jwtToken}`,
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'multipart/form-data',
             },
             body: formData
         })

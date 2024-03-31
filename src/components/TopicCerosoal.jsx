@@ -28,7 +28,7 @@ function TopicCerosoal() {
         const storedToken = jwtToken;
         console.log("jwtToken "+ storedToken)
         console.log("username "+ username)
-        fetch('http://localhost:8080/topics', {
+        fetch('http://localhost:8080/public/topics', {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${storedToken}`,
@@ -38,7 +38,7 @@ function TopicCerosoal() {
             .then(response => response.json())
             .then(data => {
                 // Update the state with the fetched data
-                setTopicsData(data);
+                setTopicsData(data.list);
             })
             .catch(error => console.error('Error:', error));
     }, []); // The empty dependency array ensures that this effe

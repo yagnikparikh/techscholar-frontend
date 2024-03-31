@@ -8,18 +8,20 @@ import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 
-function CourseCard({ course, mentorDetails }) {
+function MyCourseCard({ course }) {
 
     const { username, userrole, jwtToken } = useContext(AuthContext);
     const [ thumbnailImg, setThumbnailImg ] = useState();
+    const [mentorDetails,setMentorDetails] = useState({});
 
     useEffect(() => {
         fetchThumbnail();
+        fetchMentorDetails();
     }, []);
 
     const fetchThumbnail = () => {
         const storedToken = jwtToken;
-        const backend = `http://localhost:8080/public/${username}/courses/${course.courseTitle}/course-thumbnail`;
+        const backend = `http://localhost:8080/public/courses/${course.courseTitle}/course-thumbnail`;
         console.log("backend " + backend)
         fetch(backend, {
             method: "GET",
@@ -40,6 +42,28 @@ function CourseCard({ course, mentorDetails }) {
             .catch(error => console.error('hello Error:', error));
         
     }
+
+    const fetchMentorDetails = () => {
+        const storedToken = jwtToken;
+        console.log("jwtToken " + storedToken)
+        fetch(`http://localhost:8080/public/courses/${course.courseTitle}/get-instructor-details`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            // Update the state with the fetched data
+            console.log('Update the state with the fetched data' + data);
+            console.log(data);
+            setMentorDetails(data);
+            console.log("mentorDetails : " + mentorDetails);
+            // setCourseSubscibers(data.courseSubscibers.map);
+          })
+          .catch(error => console.error('hello Error:', error));
+      }
     // const loadEvent = async () => {
     //     const result = await axios.get(
     //       `http://localhost:8080/public/${username}/courses/${course.courseTitle}/course-thumbnail`,{
@@ -61,11 +85,12 @@ function CourseCard({ course, mentorDetails }) {
                                 height="135px"
                             /> */}
                 <Card.Body className='text-left '>
-                    <a href={`/${username}/manage-account/my-courses/${course.courseTitle}`}><Card.Title >{course.courseTitle}</Card.Title></a>
+                    <a href={`/${username}/manage-account/my-courses/${course.courseTitle}/course-videos`}><Card.Title >{course.courseTitle}</Card.Title></a>
                     <a href={`/${username}/manage-account/my-profile`}>
                         <Card.Text className='font-semibold'>
                             {mentorDetails.firstname} {mentorDetails.lastname}
                         </Card.Text>
+                        
                     </a>
 
                     <Card.Text>{course.description}</Card.Text>
@@ -86,4 +111,4 @@ function CourseCard({ course, mentorDetails }) {
     )
 }
 
-export default CourseCard
+export default MyCourseCard

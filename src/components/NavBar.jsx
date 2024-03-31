@@ -140,7 +140,7 @@ function NavBar() {
             </div>
           </li>
           <li className="nav-item">
-            <a className="nav-link active " href="#">
+            <a className="nav-link active " href="/courses">
               Courses
             </a>
           </li>

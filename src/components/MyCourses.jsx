@@ -1,5 +1,5 @@
 import React from 'react'
-import CourseCards from './CourseCards'
+import MyCourseCards from './MyCourseCards'
 import AddIcon from '@mui/icons-material/Add';
 
 function MyCourses() {
@@ -11,7 +11,7 @@ function MyCourses() {
             <h1 className="card-text text-xl align-middle"> <AddIcon className='align-middle' /> Create New Course</h1>
           </div>
         </a>
-        <CourseCards />
+        <MyCourseCards />
       </div>
     </div>
   )

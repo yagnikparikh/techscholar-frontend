@@ -15,8 +15,8 @@ const navLinkStyle = {
         zIndex: 1010,
     },
 };
-function VideoCard({ courseData, courseTitle }) {
 
+function ViewCourseSidebarVideoCard({ courseData, courseTitle }) {
     const { username, jwtToken } = useContext(AuthContext);
     // const backendEndpoint="http://localhost:8080/public/video/video1";
     let backendEndpoint = `http://localhost:8080/public/courses/${courseTitle}/${courseData.courseDataTitle}/video`;
@@ -62,17 +62,17 @@ function VideoCard({ courseData, courseTitle }) {
             <Card className='bg-gray-950 border-0'>
                 <div className='flex items-center'>
                     {/* Video player on the left */}
-                    <div className='flex-1/5 '>
+                    {/* <div className='flex-1/5 '>
                         <ReactPlayer
                             className='react-player'
                             url={backendEndpoint}
                             light={thumbnailImg}
                             style={{ flex: '20%' }}
-                            width="240px"
-                            height="135px"
+                            width="24px"
+                            height="15px"
                             controls={true}
                         />
-                    </div>
+                    </div> */}
                     {/* Course details on the right */}
                     <div className='flex-4/5'>
                         <a style={navLinkStyle.base}>
@@ -91,7 +91,7 @@ function VideoCard({ courseData, courseTitle }) {
                                     </a>
 
                                 </Card.Title>
-                                <Card.Text>Description : {courseData.description.substring(0, 190) + "..."}</Card.Text>
+                                {/* <Card.Text>Description : {courseData.description.substring(0, 190) + "..."}</Card.Text> */}
                                 {/* <Card.Text>{courseDetails.students}</Card.Text> */}
                             </div>
                         </a>
@@ -103,4 +103,4 @@ function VideoCard({ courseData, courseTitle }) {
     )
 }
 
-export default VideoCard
+export default ViewCourseSidebarVideoCard

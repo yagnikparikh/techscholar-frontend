@@ -26,7 +26,7 @@ const navLinkStyle = {
 
 
 
-function Course() {
+function MyCourse() {
 
   const { jwtToken, username } = useContext(AuthContext);
   const backendEndpoint = "http://localhost:8080/public/video/video1";
@@ -125,4 +125,4 @@ function Course() {
   )
 }
 
-export default Course
+export default MyCourse

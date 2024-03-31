@@ -35,13 +35,17 @@ import CreateNewGuidedPathArticle from './components/CreateNewGuidedPathArticle'
 import GuidedPathArticleGroup from './components/GuidedPathArticleGroup';
 import MaterialUpload from './components/MaterialUpload';
 import VideoPlayer from './components/VideoPlayer';
-import Course from './components/Course';
+import Course from './components/MyCourse';
 import CreateNewCourse from './components/CreateNewCourse';
 import MyCourseVideoList from './components/MyCourseVideoList';
 import MyCourseMaterial from './components/MyCourseMaterial';
 import MyCourseUsers from './components/MyCourseUsers';
 import MyCourseDetails from './components/MyCourseDetails';
 import AddNewCourseData from './components/AddNewCourseData';
+import PlayVideo from './components/PlayVideo';
+import CourseDisplay from './components/CourseDisplay';
+import PaymentSuccssfull from './components/PaymentSuccssfull';
+import ViewCourse from './components/ViewCourse';
 
 function App() {
   return (
@@ -51,6 +55,7 @@ function App() {
           <Route path="/" Component={HomePage} />
 
           <Route path='/video' Component={VideoPlayer}></Route>
+          
 
           <Route path='/admin' Component={ManageAccount}>
 
@@ -73,14 +78,17 @@ function App() {
               <Route index Component={MyProfile} />
               <Route path='my-profile' Component={MyProfile} />
               <Route path='my-courses/create-new-course' Component={CreateNewCourse} />
+
               <Route path='my-courses/:courseTitle' Component={Course} >
                 <Route index Component={MyCourseVideoList} />
                 <Route path='add-new-video' Component={AddNewCourseData} />
                 <Route path='course-videos' Component={MyCourseVideoList} />
+
                 <Route path='course-material' Component={MyCourseMaterial} />
                 <Route path='course-users' Component={MyCourseUsers} />
                 <Route path='course-details' Component={MyCourseDetails} />
               </Route>
+              <Route path='my-courses/:courseTitle/course-video/:courseDataTitle' Component={PlayVideo} />
               <Route path='my-courses' Component={MyCourses} />
 
               <Route path='my-materials/upload-material' Component={MaterialUpload} />
@@ -116,6 +124,10 @@ function App() {
           <Route path="/signup" Component={SignUp} />
           <Route path="/login" Component={Login} />
           <Route path='/mentors' Component={MentorDisplay} />
+          <Route path='/courses' Component={CourseDisplay} />
+          <Route path='/courses/:courseTitle/:courseDataTitle' Component={ViewCourse} />
+          {/* <Route path='/payment/:courseId' Component={PaymentSuccssfull} /> */}
+          
         </Routes>
 
       </div>
