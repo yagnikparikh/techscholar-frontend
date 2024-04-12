@@ -45,7 +45,7 @@ function ViewCourseCards() {
   
     return (
       // <CardDeck>
-      <Row xs={1} md={2} lg={3} className="g-4">
+      <Row xs={1} md={2} lg={4} className="g-4">
         {courses.map((course) => (
           <ViewCourseCard course={course}  />
         ))}
@@ -54,3 +54,6 @@ function ViewCourseCards() {
 }
 
 export default ViewCourseCards
+
+
+

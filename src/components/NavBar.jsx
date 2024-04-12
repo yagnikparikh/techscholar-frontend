@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -17,6 +17,9 @@ function NavBar() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const inputRef = useRef(null);
+  const [searchResults, setSearchResults] = useState([]);
 
   const { username, jwtToken, userrole } = useContext(AuthContext);
 
@@ -33,9 +36,46 @@ function NavBar() {
     console.log("    " + uname);
   }, [username]);
 
+  useEffect(() => {
+    const setDropdownWidth = () => {
+      const inputField = document.querySelector('.form-control');
+      if (inputField) {
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        const inputWidth = inputField.offsetWidth + 'px';
+        dropdownItems.forEach(item => {
+          item.style.width = inputWidth;
+        });
+      }
+    };
 
+    setDropdownWidth(); // Call the function once after the component mounts
+  }, []);
 
+  const getSearchResult = (e) => {
+    e.preventDefault();
+    const storedToken = jwtToken;
+    console.log("jwtToken " + storedToken)
 
+   
+    fetch(`http://localhost:8080/public/search-result`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(searchTerm),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Update the state with the fetched data
+        console.log('Search Data' + data);
+        console.log(data);
+        setSearchResults(data.list);
+        inputRef.current.focus();
+        // setCourseSubscibers(data.courseSubscibers.map);
+      })
+      .catch(error => console.error('hello Error:', error));
+  }
 
 
 
@@ -58,86 +98,16 @@ function NavBar() {
 
       <div className="navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li
-            className="nav-item dropdown"
-            onMouseEnter={() => setTutorialDropdownVisible(true)}
-            onMouseLeave={() => setTutorialDropdownVisible(false)}
-          >
-            <a
-              className={`nav-link active dropdown-toggle`}
-              href="#"
-              id="navbarDropdown1"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Tutorials
+         
+          <li className="nav-item">
+            <a className="nav-link active " href="/guided-paths">
+              GuidedPaths
             </a>
-            <div
-              className={`dropdown-menu ${tutorialDropdownVisible ? 'show' : ''}`}
-              aria-labelledby="navbarDropdown1"
-            >
-              {tutorials.map((item, index) => (
-                <a className="dropdown-item" href="#" key={index}>
-                  {item}
-                </a>
-              ))}
-            </div>
           </li>
-          <li
-            className="nav-item dropdown"
-            onMouseEnter={() => setExerciseDropdownVisible(true)}
-            onMouseLeave={() => setExerciseDropdownVisible(false)}
-          >
-            <a
-              className={`nav-link active dropdown-toggle`}
-              href="#"
-              id="navbarDropdown2"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Exercise
-            </a>
-            <div
-              className={`dropdown-menu ${exerciseDropdownVisible ? 'show' : ''}`}
-              aria-labelledby="navbarDropdown2"
-            >
-              {tutorials.map((item, index) => (
-                <a className="dropdown-item" href="#" key={index}>
-                  {item}
-                </a>
-              ))}
-            </div>
-          </li>
-          <li
-            className="nav-item dropdown"
-            onMouseEnter={() => setMentorDropdownVisible(true)}
-            onMouseLeave={() => setMentorDropdownVisible(false)}
-          >
-            <a
-              className={`nav-link active  dropdown-toggle`}
-              href="#"
-              id="navbarDropdown3"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+          <li className="nav-item">
+            <a className="nav-link active " href="/mentors">
               Mentors
             </a>
-            <div
-              className={`dropdown-menu ${mentorDropdownVisible ? 'show' : ''}`}
-              aria-labelledby="navbarDropdown3"
-            >
-              {mentors.map((item, index) => (
-                <a className="dropdown-item" href="#" key={index}>
-                  {item}
-                </a>
-              ))}
-            </div>
           </li>
           <li className="nav-item">
             <a className="nav-link active " href="/courses">
@@ -145,17 +115,39 @@ function NavBar() {
             </a>
           </li>
         </ul>
-        <form className="form-inline my-2 my-lg-0">
-          <input
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-primary my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+        <div style={{ position: 'relative' }}>
+          <form  className="form-inline my-2 my-lg-0">
+            <input
+              className="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              ref={inputRef}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onBlur={() => setSearchResults([])}
+            />
+
+            <button onClick={getSearchResult} className="btn btn-primary bg-transparent  my-2 my-sm-0" >
+              Search
+            </button>
+
+          </form>
+          <div
+            className={`dropdown-menu ${searchResults.length != 0 ? 'show' : ''}`}
+            style={{ position: 'absolute', top: '100%', left: 0 }}
+            aria-labelledby="Search"
+          >
+            {searchResults.map((item, index) => (
+              <a className="dropdown-item " href={item.link} key={index}>
+                <strong>{item.title}</strong>
+                <br></br>
+                <small className='mt-0'>{item.type}</small>
+              </a>
+            ))}
+          </div>
+
+        </div>
+
         <div className='nav-item'>
           {
             userrole === "[ADMIN]" ? <a className="nav-link active" href='/admin/my-profile'>
@@ -164,22 +156,22 @@ function NavBar() {
                 Admin Panel
               </button>
             </a>
-          :
-            uname !== null ?
-
-              <a className="nav-link active" href={`/${username}/manage-account/my-profile`}>
-
-                <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
-                  Profile
-                </button>
-              </a>
               :
-              <a className="nav-link active" href='/login'>
+              uname !== null ?
 
-                <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
-                  login
-                </button>
-              </a>
+                <a className="nav-link active" href={`/${username}/manage-account/my-profile`}>
+
+                  <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
+                    Profile
+                  </button>
+                </a>
+                :
+                <a className="nav-link active" href='/login'>
+
+                  <button className="btn btn-success  my-2 my-sm-0" data-toggle="modal" ata-toggle="modal" data-target="#exampleModalCenter">
+                    login
+                  </button>
+                </a>
           }
         </div>
 

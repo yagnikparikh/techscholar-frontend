@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-function CodeComponent({content}) {
+function CodeComponent({ content }) {
     const codeRef = useRef(null);
 
     const handleCopyClick = () => {
@@ -29,7 +29,7 @@ function CodeComponent({content}) {
                                 className="bg-transparent text-white px-2  rounded hover:bg-blue-700"
                                 onClick={handleCopyClick}
                             >
-                                <ContentCopyIcon style={{fontSize:'large'}}/>
+                                <ContentCopyIcon style={{ fontSize: 'large' }} />
                             </button>
                         </div>
 
@@ -38,9 +38,8 @@ function CodeComponent({content}) {
                         <div className='flex align-middle mt-2'>
                             <h4 className='text-white mt-1 text-left' style={{ whiteSpace: 'pre-wrap' }} ref={codeRef}>
                                 {/* Your code goes here */}
-                                <p>
-                                    {content}
-                                </p>
+
+                                <p dangerouslySetInnerHTML={{ __html: content }} />
                             </h4>
                         </div>
                     </div>

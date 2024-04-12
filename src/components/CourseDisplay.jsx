@@ -13,7 +13,7 @@ function CourseDisplay() {
 
 
       <div style={{ display: 'flex', flex: 1 }}>
-        <Sidebar />
+        {/* <Sidebar /> */}
         <ViewAllCourses />
        
       </div>

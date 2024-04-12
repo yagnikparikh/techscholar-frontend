@@ -13,7 +13,7 @@ function ImpNote({content}) {
 
 
                             <div className='flex align-middle mt-2'>
-                                <h4 className='text-white mt-1 text-left'>{content}</h4>
+                                <h4 className='text-white mt-1 text-left' dangerouslySetInnerHTML={{ __html: content }} />
                             </div>
                         </div>
                     </div>

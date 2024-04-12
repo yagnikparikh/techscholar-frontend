@@ -31,11 +31,13 @@ function ViewCourseCard({ course }) {
     const [thumbnailImg, setThumbnailImg] = useState();
     const [mentorDetails, setMentorDetails] = useState({});
     const [IsPurchesed, setIsPurchesed] = useState(false);
+    const [courseLink,setCourseLink] = useState('');
 
     useEffect(() => {
         fetchThumbnail();
         fetchMentorDetails();
         checkIsPurchesed();
+        getFirstCourseData();
     }, []);
 
     const fetchThumbnail = () => {
@@ -61,6 +63,29 @@ function ViewCourseCard({ course }) {
             .catch(error => console.error('hello Error:', error));
 
     }
+
+    const getFirstCourseData = () => {
+        const storedToken = jwtToken;
+        console.log("jwtToken " + storedToken)
+        fetch(`http://localhost:8080/public/courses/${course.courseTitle}/get-first-courseData`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Update the state with the fetched data
+                console.log('Update the state with the fetched data' + data);
+                console.log(data);
+                setCourseLink(`/courses/${course.courseTitle}/${data.courseData.courseDataTitle}`);
+                console.log("mentorDetails : " + mentorDetails);
+                // setCourseSubscibers(data.courseSubscibers.map);
+            })
+            .catch(error => console.error('hello Error:', error));
+    }
+
 
     const checkIsPurchesed = () => {
         const storedToken = jwtToken;
@@ -153,9 +178,16 @@ function ViewCourseCard({ course }) {
                 /> */}
                 <Card.Body className='text-left '>
                     <Card.Title className='m-0' >
-                        <a href={`/${username}/manage-account/my-courses/${course.courseTitle}`}>
-                            Advanced {course.courseTitle} In 28 Minutes
-                        </a>
+                        {IsPurchesed ?
+                            <a href={courseLink}>
+                                {course.courseTitle}
+                            </a>
+                            :
+                            <a onClick={handelBuyNow}>
+                                {course.courseTitle}
+                            </a>
+
+                        }
                     </Card.Title>
                     <a href={`/${username}/profile`} className=' font-medium mt-1'>
                         <Card.Text className='font-medium '>
@@ -180,19 +212,19 @@ function ViewCourseCard({ course }) {
 
                         <div className='flex justify-end text-sm'>
                             <Card.Text >
-                                
+
                                 {
                                     IsPurchesed ?
-                                    <a className='border-0 m-1'>
-                                        <Button className='btn btn-primary  text-sm  bg-primary '>Learn Now</Button>
-                                    </a>
-                                    :
-                                    <a className='border-0 m-1'>
-                                        <Button onClick={handelBuyNow} className='btn btn-success  text-sm  bg-success '>Buy Now</Button>
-                                    </a>
-                                     
-                                    
-                                     
+                                        <a className='border-0 m-1' href={courseLink}>
+                                            <Button className='btn btn-primary  text-sm  bg-primary '>Learn Now</Button>
+                                        </a>
+                                        :
+                                        <a className='border-0 m-1'>
+                                            <Button onClick={handelBuyNow} className='btn btn-success  text-sm  bg-success '>Buy Now</Button>
+                                        </a>
+
+
+
                                 }
                                 <a className='border-0 m-1'>
                                     <button title='Add to Favorites' className='bg-transparent border-0' style={{ outline: 'none' }}><FavoriteBorderIcon /></button>

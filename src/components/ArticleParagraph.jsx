@@ -6,9 +6,7 @@ function ArticleParagraph({content}) {
             <div className='container m-2 '>
                 <h4 className='text-white mt-1 text-left' style={{ whiteSpace: 'pre-wrap' }} >
                     {/* Your code goes here */}
-                    <p>
-                        {content}
-                    </p>
+                    <p dangerouslySetInnerHTML={{ __html: content }} />
                 </h4>
             </div>
         </div>

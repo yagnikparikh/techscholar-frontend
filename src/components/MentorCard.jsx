@@ -8,7 +8,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 function MentorCard({mentorData}) {
     return (
         
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="col-lg-3 col-md-6 col-sm-12">
                 <div className="card m-3 h-auto w-100 border border-black-300" style={{  height: 'fit-content', display: 'flex', flexDirection: 'column' }}>
                     <div className='card-header h-20' style={{backgroundImage: "url(https://gstatic.com/classroom/themes/Chemistry.jpg)", backgroundSize: 'cover'}}>
 

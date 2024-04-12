@@ -82,7 +82,8 @@
 
 // export default CreateNewArticle;
 
-import React, { useContext, useState } from 'react';
+
+import React, { useContext, useEffect, useState } from 'react';
 import ArticleParagraph from './ArticleParagraph';
 import CodeComponent from './CodeComonenet';
 import ImpNote from './ImpNote';
@@ -90,14 +91,119 @@ import ArticleHeading from './ArticleHeading';
 import AuthContext from '../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { Modal, Button, Form } from 'react-bootstrap';
+
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
+
+const InputModal = ({ contentType, contentData, show, onHide, onConfirm }) => {
+
+    const [newContentType, setNewContentType] = useState(contentType);
+    const [newContentData, setNewContentData] = useState('');
+    // const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+    let options = {
+        inlineStyles: {
+            // Use 'b' for bold.
+            BOLD: { element: 'b' },
+            // Use 'i' for italic.
+            ITALIC: { element: 'i' },
+            // Use 'ul' for unordered list.
+            'unordered-list-item': { element: 'ul' },
+        },
+    };
+
+
+    useEffect(() => {
+        setNewContentType(contentType);
+    }, [contentType])
+
+    useEffect(() => {
+        setNewContentData('');
+    }, [])
+
+    const handleSaveChanges = () => {
+        onConfirm(newContentData, newContentType);
+        onHide();
+    };
+
+    // const onItalicClick = () => {
+    //     setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
+    // };
+
+    // const onBoldClick = () => {
+    //     setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+    // };
+
+    // const onBulletPointClick = () => {
+    //     setEditorState(RichUtils.toggleBlockType(editorState, 'unordered-list-item'));
+    // };
+
+
+
+    // const onChange = (newEditorState) => {
+    //     console.log(newEditorState);
+    //     setEditorState(newEditorState);
+    //     // Extracting text from editor state and updating newContentData
+    //     const contentAsHTML = stateToHTML(newEditorState.getCurrentContent(),options);
+    //     console.log(contentAsHTML);
+    //     setNewContentData(contentAsHTML);
+    // };
+
+
+    return (
+        <Modal show={show} onHide={onHide} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Enter {newContentType} Content</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {/* <button onClick={onItalicClick}>Italic</button>
+                <button onClick={onBoldClick}>Bold</button>
+
+                if()
+                <button onClick={onBulletPointClick}>Bullet Point</button> */}
+                {newContentType == "Heading" ?
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={newContentData}
+                        onChange={(e) => setNewContentData(e.target.value)}
+                    />
+                    :
+                    <ReactQuill value={newContentData} onChange={setNewContentData} />
+                }
+
+                {/* <Editor
+                    editorState={editorState}
+                    onChange={onChange}
+                    options={options}
+                /> */}
+
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button variant="secondary" className='bg-danger ' onClick={onHide}>
+                    Cancel
+                </Button>
+                <Button variant="primary" className='bg-primary' onClick={handleSaveChanges}>
+                    Add {newContentType}
+                </Button>
+            </Modal.Footer>
+        </Modal>
+
+    );
+};
+
 function CreateNewArticle() {
 
-    const {username, jwtToken} = useContext(AuthContext);
-    const {articleGroup} = useParams();
+    const { username, jwtToken } = useContext(AuthContext);
+    const { articleGroup } = useParams();
     const [components, setComponents] = useState([]);
     const [firstHeadingAdded, setFirstHeadingAdded] = useState(false);
+    const [showInputModal, setShowInputModal] = useState(false);
+    const [inputContentType, setInputContentType] = useState(false);
     const [headingContent, setHeadingContent] = useState('');
     const navigate = useNavigate();
+
 
 
     const handleAddComponent = (buttonType, content) => {
@@ -117,11 +223,20 @@ function CreateNewArticle() {
     };
 
     const handleButtonClick = (buttonType) => {
-        const content = prompt(`Enter content for ${buttonType}:`);
+        // const content = prompt(`Enter content for ${buttonType}:`);
+
+        setInputContentType(buttonType);
+        setShowInputModal(true);
+
+
+    };
+
+    const handleModalSubmit = (content, buttonType) => {
+        console.log(buttonType + " " + content);
         if (content !== null) {
             handleAddComponent(buttonType, content);
         }
-    };
+    }
 
     const handlePublish = async () => {
         // Prepare data to send to the backend
@@ -131,9 +246,9 @@ function CreateNewArticle() {
         };
         console.log(dataToSend);
 
-    
-        
-        
+
+
+
         const backendEndpoint = `http://localhost:8080/mentors/${username}/${articleGroup}/create-new-article`;
 
         try {
@@ -163,14 +278,14 @@ function CreateNewArticle() {
 
     // const handlePublish = async () => {
     //     // You can include logic here to format data as needed for GET request parameters
-    
+
     //     // Replace 'YOUR_BACKEND_ENDPOINT' with the actual endpoint and any necessary parameters
     //     const backendEndpoint = 'http://localhost:8080/create-new-article';
-    
+
     //     try {
     //       // Make a GET request to the backend
     //       const response = await fetch(backendEndpoint);
-    
+
     //       if (response.ok) {
     //         // Handle successful response
     //         const responseData = await response.json();
@@ -233,6 +348,12 @@ function CreateNewArticle() {
                     Publish
                 </button>
             </div>
+
+            <InputModal
+                show={showInputModal}
+                contentType={inputContentType}
+                onHide={() => setShowInputModal(false)}
+                onConfirm={handleModalSubmit} />
 
         </div>
     );

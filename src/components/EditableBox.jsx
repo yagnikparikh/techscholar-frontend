@@ -5,6 +5,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Form, Modal } from 'react-bootstrap';
 
+import 'react-quill/dist/quill.snow.css'; 
+import ReactQuill from 'react-quill';
+
 
 const DeleteArticleDataModal = ({ show, onHide, handelDelete,articleData }) => {
 
@@ -80,15 +83,16 @@ const EditArticleDataModal = ({ articleDataId, contentType, contentData, show, o
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="formText">
+          { newContentData && <Form.Group controlId="formText">
             <Form.Label>Content Data</Form.Label>
-            <Form.Control
+            {/* <Form.Control
               type="textarea"
               value={newContentData}
               onChange={(e) => setNewContentData(e.target.value)}
-            />
-          </Form.Group>
-
+            /> */}
+          <ReactQuill value={newContentData} onChange={setNewContentData} />
+            
+          </Form.Group>}
 
         </Form>
       </Modal.Body>
@@ -147,7 +151,7 @@ function EditableBox({ articleData, handelEdit ,handelDelete}) {
 
 
                     <div className='flex align-middle mt-2'>
-                      <h4 className='text-white mt-1 text-left'>{articleData.contentData}</h4>
+                      <h4 className='text-white mt-1 text-left' dangerouslySetInnerHTML={{ __html: articleData.contentData }} />
                     </div>
                   </div>
                 </div>

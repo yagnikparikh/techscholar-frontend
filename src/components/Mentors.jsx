@@ -24,6 +24,7 @@ function Mentors() {
                 // Update the state with the fetched data
                 console.log('Update the state with the fetched data' + data);
                 setMentorList(data);
+                setMentorList(['Dr.Vipul Dabhi','Sandeep Suthar','Deepak Vegda','Nikita Desai']);
             })
             .catch(error => console.error('hello Error:', error));
     }

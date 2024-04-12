@@ -15,7 +15,7 @@ function MentorDisplay() {
 
 
       <div style={{ display: 'flex', flex: 1 }}>
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Mentors />
        
       </div>
